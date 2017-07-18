@@ -1,6 +1,7 @@
 package companySearcher;
 
 
+import javax.xml.namespace.QName;
 import javax.xml.soap.*;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
@@ -30,10 +31,20 @@ public class WsClient {
 
 
         //Creating SOAP header
-        String headerURI = "https://wyszukiwarkaregontest.stat.gov.pl/wsBIR/UslugaBIRzewnPubl.svc/";
+        String headerURI = "http://www.w3.org/2005/08/addressing";
         SOAPHeader soapHeader = soapEnvelope.getHeader();
         soapHeader.addNamespaceDeclaration("wsa", headerURI);
+        QName action = new QName("http://CIS/BIR/PUBL/2014/07/IUslugaBIRzewnPubl/Zaloguj", "Action", "wsa");
+        SOAPElement soapHeaderElement = soapHeader.addHeaderElement(action);
+        QName to = new QName("https://wyszukiwarkaregontest.stat.gov.pl/wsBIR/UslugaBIRzewnPubl.svc", "To", "wsa");
+        SOAPElement soapHeaderElement1 = soapHeader.addHeaderElement(to);
 
+
+        /*
+        SOAPElement soapHeaderElement=soapHeader.addHeaderElement(action);
+        QName to=new QName("https://wyszukiwarkaregontest.stat.gov.pl/wsBIR/UslugaBIRzewnPubl.svc","To","wsa");
+        SOAPElement soapHeaderElement1=soapHeader.addHeaderElement(to);
+        */
         //TODO check if prefix match
         //TODO addNamespaceDeclaration
         //TODO add soap elements for header
@@ -94,12 +105,6 @@ public class WsClient {
 //        JSONObject xmlJSONObj = XML.toJSONObject(sw.toString());
 //        return xmlJSONObj.toString(2);
     }
-
-    /*
-    xml to string
-    JSONObject xmlJSONObj = XML.toJSONObject(sw.toString());
-        return xmlJSONObj.toString(2);
-*/
 
     public static void soapTest() throws Exception {
         //SOAP connection factory instance
