@@ -1,37 +1,125 @@
 package companySearcher;
 
-import companySearcher.cxf.cis.bir.publ._2014._07.IUslugaBIRzewnPubl;
-import companySearcher.cxf.cis.bir.publ._2014._07.datacontract.ObjectFactory;
-import companySearcher.cxf.cis.bir.publ._2014._07.datacontract.ParametryWyszukiwania;
-import companySearcher.cxf.org.tempuri.UslugaBIRzewnPubl;
 
-import javax.xml.bind.JAXBElement;
-import javax.xml.ws.soap.AddressingFeature;
+import javax.xml.soap.*;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.stream.StreamResult;
 
 /**
  * Created by Kamil Best on 14.07.2017.
  */
 public class WsClient {
+
+    private static SOAPMessage getRequestMessage() throws Exception {
+        //SOAP message factory instance (PROTOCOL: SOAP_1_2_PROTOCOL)
+        MessageFactory messageFactory = MessageFactory.newInstance(SOAPConstants.SOAP_1_2_PROTOCOL);
+        //Creating SOAP message
+        SOAPMessage soapMessage = messageFactory.createMessage();
+
+        //Creating SOAP part
+        SOAPPart soapPart = soapMessage.getSOAPPart();
+
+        //Creating SOAP envelope
+        String serverURI = "http://CIS/BIR/PUBL/2014/07";
+        SOAPEnvelope soapEnvelope = soapPart.getEnvelope();
+        soapEnvelope.addNamespaceDeclaration("ns", serverURI);
+        //TODO check if prefix match
+        //TODO addNamespaceDeclaration
+
+
+        //Creating SOAP header
+        String headerURI = "https://wyszukiwarkaregontest.stat.gov.pl/wsBIR/UslugaBIRzewnPubl.svc/";
+        SOAPHeader soapHeader = soapEnvelope.getHeader();
+        soapHeader.addNamespaceDeclaration("wsa", headerURI);
+
+        //TODO check if prefix match
+        //TODO addNamespaceDeclaration
+        //TODO add soap elements for header
+
+
+
+             /*
+        Zaloguj Request
+           <!-- Zaloguj ------------------------------------------------------------->
+    <soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:ns="http://CIS/BIR/PUBL/2014/07">
+    <soap:Header xmlns:wsa="http://www.w3.org/2005/08/addressing">
+    <wsa:Action>http://CIS/BIR/PUBL/2014/07/IUslugaBIRzewnPubl/Zaloguj</wsa:Action>
+    <wsa:To>https://wyszukiwarkaregontest.stat.gov.pl/wsBIR/UslugaBIRzewnPubl.svc</wsa:To>
+    </soap:Header>
+       <soap:Body>
+          <ns:Zaloguj>
+             <ns:pKluczUzytkownika>theUsersKey</ns:pKluczUzytkownika>
+          </ns:Zaloguj>
+       </soap:Body>
+    </soap:Envelope>
+    <!-- ------------------------------------------------------------->
+
+         */
+        //Gain and modify SOAP body
+        SOAPBody soapBody = soapEnvelope.getBody();
+
+        //TODO check if prefix match
+        //TODO add soap elements for body (request params)
+
+
+        SOAPElement soapBodyElement = soapBody.addChildElement("Zaloguj", "ns");
+        SOAPElement soapBodyElement1 = soapBodyElement.addChildElement("pKluczUzytkownika", "ns");
+        soapBodyElement1.addTextNode("abcde12345abcde12345");
+
+        //Gain and modify mime headers
+        MimeHeaders headers = soapMessage.getMimeHeaders();
+        //TODO pass your header URI
+        headers.addHeader("SOAPAction", serverURI + "Zaloguj");
+
+        //Save SOAP message changes
+        soapMessage.saveChanges();
+
+        //Print request
+        System.out.print("Request SOAPMessage: ");
+        soapMessage.writeTo(System.out);
+        System.out.println();
+
+        return soapMessage;
+    }
+
+    private static void printSOAPResult(SOAPMessage soapResponse, String title) throws Exception {
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        Transformer transformer = transformerFactory.newTransformer();
+        Source sourceContent = soapResponse.getSOAPPart().getContent();
+        System.out.print(title);
+        StreamResult result = new StreamResult(System.out);
+        transformer.transform(sourceContent, result);
+//        JSONObject xmlJSONObj = XML.toJSONObject(sw.toString());
+//        return xmlJSONObj.toString(2);
+    }
+
+    /*
+    xml to string
+    JSONObject xmlJSONObj = XML.toJSONObject(sw.toString());
+        return xmlJSONObj.toString(2);
+*/
+
+    public static void soapTest() throws Exception {
+        //SOAP connection factory instance
+        SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory.newInstance();
+        //Creating SOAP connection
+        SOAPConnection soapConnection = soapConnectionFactory.createConnection();
+
+        //Call request and receive result
+        //TODO pass your URL to service
+        SOAPMessage result = soapConnection.call(getRequestMessage(), "https://wyszukiwarkaregontest.stat.gov.pl/wsBIR/UslugaBIRzewnPubl.svc");
+
+        printSOAPResult(result, "Result SOAPMessage: ");
+    }
+
     public static void main(String[] args) {
 
-        UslugaBIRzewnPubl service = new UslugaBIRzewnPubl();
-        service.setHandlerResolver(new SoapHandlerResolver()); //<- doklejanie SID'a do HTTP HEADER
-        String statusUslugi = "StatusUslugi";
-        IUslugaBIRzewnPubl port = service.getE3(new AddressingFeature());
-
-        String result = port.getValue(statusUslugi);
-////// logowanie, jezeli sesja wygasla, badx logowanie pierwszy raz
-        if ((SoapMessageHandler.sessionCookie.equals("")) || (!result.equals("1"))) {
-            String sid = port.zaloguj("abcde12345abcde12345");
-            SoapMessageHandler.sessionCookie = sid;
+        try {
+            soapTest();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-// przykład wyszukiwania po NIPie
-
-        ObjectFactory objectFactory = new ObjectFactory();
-        JAXBElement<String> nipParam = objectFactory.createParametryWyszukiwaniaNip("1234567890");
-        ParametryWyszukiwania parametryWyszukiwania = new ParametryWyszukiwania();
-        parametryWyszukiwania.setNip(nipParam);
-        String raport = port.daneSzukaj(parametryWyszukiwania);
-        System.out.println(raport);
     }
 }
