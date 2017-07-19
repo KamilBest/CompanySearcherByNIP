@@ -1,4 +1,4 @@
-package com.Best.companySearch;
+package com.companySearch.WsClient.Request;
 
 import javax.xml.soap.*;
 

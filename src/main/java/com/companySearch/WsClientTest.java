@@ -1,4 +1,8 @@
-package com.Best.companySearch;
+package com.companySearch;
+
+import com.companySearch.WsClient.Request.LoginRequest;
+import com.companySearch.WsClient.SOAP.SOAPAuthorizer;
+import com.companySearch.WsClient.WsClient;
 
 import javax.xml.soap.SOAPException;
 
@@ -10,7 +14,6 @@ public class WsClientTest {
         try {
             WsClient wsClient = new WsClient(new SOAPAuthorizer());
             wsClient.getResponse(new LoginRequest());
-            DaneSzukajTest.soapTest();
         } catch (SOAPException e) {
             e.printStackTrace();
         }

@@ -1,4 +1,4 @@
-package com.Best.companySearch.gui;
+package com.companySearch.gui;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -15,7 +15,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("com/Best/companySearch/gui/MainController.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("MainController.fxml"));
         primaryStage.setTitle("SearchCompanyByNIP");
         primaryStage.setScene(new Scene(root, 600, 550));
         Platform.setImplicitExit(false);

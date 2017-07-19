@@ -1,4 +1,7 @@
-package com.Best.companySearch;
+package com.companySearch.WsClient;
+
+import com.companySearch.WsClient.Request.Request;
+import com.companySearch.WsClient.SOAP.SOAPAuthorizer;
 
 /**
  * Created by Kamil Best on 14.07.2017.

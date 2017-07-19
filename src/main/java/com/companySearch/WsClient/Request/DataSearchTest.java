@@ -1,4 +1,4 @@
-package com.Best.companySearch;
+package com.companySearch.WsClient.Request;
 
 import javax.xml.soap.*;
 import javax.xml.transform.Source;
@@ -9,7 +9,7 @@ import javax.xml.transform.stream.StreamResult;
 /**
  * Created by Kamil Best on 19.07.2017.
  */
-public class DaneSzukajTest {
+public class DataSearchTest {
 
     private static SOAPMessage getRequestMessage() throws Exception {
         //SOAP message factory instance (PROTOCOL: SOAP_1_2_PROTOCOL)

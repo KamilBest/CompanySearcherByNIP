@@ -1,4 +1,4 @@
-package com.Best.companySearch;
+package com.companySearch.WsClient.Request;
 
 import javax.xml.soap.*;
 
@@ -31,7 +31,7 @@ public abstract class Request implements RequestInterface {
      * @return constructed SOAP message
      * @throws Exception
      */
-    public SOAPMessage constructRequestMessage() throws Exception {
+    public void constructRequestMessage() throws Exception {
         //SOAP message factory instance (PROTOCOL: SOAP_1_2_PROTOCOL)
         MessageFactory messageFactory = MessageFactory.newInstance(SOAPConstants.SOAP_1_2_PROTOCOL);
 
@@ -65,6 +65,9 @@ public abstract class Request implements RequestInterface {
         soapMessage.writeTo(System.out);
         System.out.println();
 
+    }
+
+    public SOAPMessage getSoapMessage() {
         return soapMessage;
     }
 }

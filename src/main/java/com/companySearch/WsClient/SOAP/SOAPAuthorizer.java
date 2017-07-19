@@ -1,4 +1,6 @@
-package com.Best.companySearch;
+package com.companySearch.WsClient.SOAP;
+
+import com.companySearch.WsClient.Request.Request;
 
 import javax.xml.soap.SOAPConnection;
 import javax.xml.soap.SOAPConnectionFactory;
@@ -49,7 +51,8 @@ public class SOAPAuthorizer implements Authorizer {
     public void authorize(Request request) throws Exception {
         String serviceURI = "https://wyszukiwarkaregontest.stat.gov.pl/wsBIR/UslugaBIRzewnPubl.svc";
         //Call request and receive result from service
-        SOAPMessage result = soapConnection.call(request.constructRequestMessage(), serviceURI);
+        request.constructRequestMessage();
+        SOAPMessage result = soapConnection.call(request.getSoapMessage(), serviceURI);
         printSOAPResult(result, "Result SOAPMessage: ");
     }
 }

@@ -1,4 +1,4 @@
-package com.Best.companySearch;
+package com.companySearch.WsClient.Request;
 
 import javax.xml.soap.SOAPElement;
 import javax.xml.soap.SOAPException;
@@ -6,7 +6,7 @@ import javax.xml.soap.SOAPException;
 /**
  * Created by Kamil Best on 18.07.2017.
  */
-final class LoginRequest extends Request {
+public class LoginRequest extends Request {
     @Override
     protected void prepareSOAPEnvelope() throws Exception {
 
