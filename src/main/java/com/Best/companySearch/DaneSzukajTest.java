@@ -1,4 +1,4 @@
-package companySearcher;
+package com.Best.companySearch;
 
 import javax.xml.soap.*;
 import javax.xml.transform.Source;
@@ -7,9 +7,9 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 
 /**
- * Created by Kamil Best on 14.07.2017.
+ * Created by Kamil Best on 19.07.2017.
  */
-public class WsClient {
+public class DaneSzukajTest {
 
     private static SOAPMessage getRequestMessage() throws Exception {
         //SOAP message factory instance (PROTOCOL: SOAP_1_2_PROTOCOL)
@@ -21,12 +21,17 @@ public class WsClient {
         //Creating SOAP part
         SOAPPart soapPart = soapMessage.getSOAPPart();
 
+
         //Creating SOAP envelope
         String serverURI = "http://CIS/BIR/PUBL/2014/07";
         SOAPEnvelope soapEnvelope = soapPart.getEnvelope();
-        soapEnvelope.addNamespaceDeclaration("ns", serverURI);
         soapEnvelope.setPrefix("soap");  //to make sure prefix match
+
+        soapEnvelope.addNamespaceDeclaration("dat", "http://CIS/BIR/PUBL/2014/07/DataContract");
         soapEnvelope.addNamespaceDeclaration("ns", serverURI);
+
+
+        //TODO replace dat and ns prefixes with uri
         soapEnvelope.removeNamespaceDeclaration("env");
 
         //Creating SOAP header
@@ -36,19 +41,20 @@ public class WsClient {
         soapHeader.addNamespaceDeclaration("wsa", headerURI);
         SOAPElement soapHeaderElement = soapHeader.addChildElement("Action", "wsa");
         SOAPElement soapHeaderElement1 = soapHeader.addChildElement("To", "wsa");
-        soapHeaderElement.addTextNode("http://CIS/BIR/PUBL/2014/07/IUslugaBIRzewnPubl/Zaloguj");
+        soapHeaderElement.addTextNode("http://CIS/BIR/PUBL/2014/07/IUslugaBIRzewnPubl/DaneSzukaj");
         soapHeaderElement1.addTextNode("https://wyszukiwarkaregontest.stat.gov.pl/wsBIR/UslugaBIRzewnPubl.svc");
 
         //Gain and modify SOAP body
         SOAPBody soapBody = soapEnvelope.getBody();
         soapBody.setPrefix("soap");
-        SOAPElement soapBodyElement = soapBody.addChildElement("Zaloguj", "ns");
-        SOAPElement soapBodyElement1 = soapBodyElement.addChildElement("pKluczUzytkownika", "ns");
-        soapBodyElement1.addTextNode("abcde12345abcde12345");
+        SOAPElement soapBodyElement = soapBody.addChildElement("DaneSzukaj", "ns");
+        SOAPElement soapBodyElement1 = soapBodyElement.addChildElement("pParametryWyszukiwania", "ns");
+        SOAPElement parametr = soapBodyElement1.addChildElement("Nip", "dat");
+        parametr.addTextNode("9290016119");
 
         //Gain and modify mime headers
         MimeHeaders headers = soapMessage.getMimeHeaders();
-        headers.addHeader("SOAPAction", serverURI + "Zaloguj");
+        headers.addHeader("SOAPAction", serverURI + "DaneSzukaj");
 
         //Save SOAP message changes
         soapMessage.saveChanges();
@@ -68,6 +74,8 @@ public class WsClient {
         System.out.print(title);
         StreamResult result = new StreamResult(System.out);
         transformer.transform(sourceContent, result);
+
+
 //        JSONObject xmlJSONObj = XML.toJSONObject(sw.toString());
 //        return xmlJSONObj.toString(2);
     }
@@ -85,11 +93,12 @@ public class WsClient {
     }
 
     public static void main(String[] args) {
-
         try {
             soapTest();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+
 }
