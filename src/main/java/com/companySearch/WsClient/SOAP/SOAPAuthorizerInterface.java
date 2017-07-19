@@ -13,13 +13,13 @@ import javax.xml.transform.stream.StreamResult;
 
 /**
  * Created by Kamil Best on 19.07.2017.
- * SOAPAuthorizer class, making SOAP connection, calling requests and printing SOAP result.
+ * SOAPAuthorizerInterface class, making SOAP connection, calling requests and printing SOAP result.
  */
-public class SOAPAuthorizer implements Authorizer {
+public class SOAPAuthorizerInterface implements AuthorizerInterface {
     private SOAPConnectionFactory soapConnectionFactory;
     private SOAPConnection soapConnection;
 
-    public SOAPAuthorizer() throws SOAPException {
+    public SOAPAuthorizerInterface() throws SOAPException {
         soapConnectionFactory = SOAPConnectionFactory.newInstance();
         //Creating SOAP connection
         soapConnection = soapConnectionFactory.createConnection();

@@ -1,7 +1,7 @@
 package com.companySearch.WsClient;
 
 import com.companySearch.WsClient.Request.Request;
-import com.companySearch.WsClient.SOAP.SOAPAuthorizer;
+import com.companySearch.WsClient.SOAP.SOAPAuthorizerInterface;
 
 /**
  * Created by Kamil Best on 14.07.2017.
@@ -11,11 +11,11 @@ import com.companySearch.WsClient.SOAP.SOAPAuthorizer;
 public class WsClient {
 
     /**
-     * SOAPAuthorizer objects, handle SOAP requests.
+     * SOAPAuthorizerInterface objects, handle SOAP requests.
      */
-    private SOAPAuthorizer soapAuthorizer;
+    private SOAPAuthorizerInterface soapAuthorizer;
 
-    public WsClient(SOAPAuthorizer soapAuthorizer) {
+    public WsClient(SOAPAuthorizerInterface soapAuthorizer) {
         this.soapAuthorizer = soapAuthorizer;
     }
 

@@ -1,7 +1,7 @@
 package com.companySearch;
 
 import com.companySearch.WsClient.Request.LoginRequest;
-import com.companySearch.WsClient.SOAP.SOAPAuthorizer;
+import com.companySearch.WsClient.SOAP.SOAPAuthorizerInterface;
 import com.companySearch.WsClient.WsClient;
 
 import javax.xml.soap.SOAPException;
@@ -12,7 +12,7 @@ import javax.xml.soap.SOAPException;
 public class WsClientTest {
     public static void main(String[] args) throws Exception {
         try {
-            WsClient wsClient = new WsClient(new SOAPAuthorizer());
+            WsClient wsClient = new WsClient(new SOAPAuthorizerInterface());
             wsClient.getResponse(new LoginRequest());
         } catch (SOAPException e) {
             e.printStackTrace();

@@ -5,6 +5,6 @@ import com.companySearch.WsClient.Request.Request;
 /**
  * Created by Kamil Best on 19.07.2017.
  */
-public interface Authorizer {
+public interface AuthorizerInterface {
     void authorize(Request request) throws Exception;
 }
