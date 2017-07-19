@@ -6,7 +6,7 @@ import javax.xml.soap.SOAPException;
 /**
  * Created by Kamil Best on 18.07.2017.
  */
-public class LoginRequest extends Request {
+public class SOAPLoginRequest extends Request {
     @Override
     protected void prepareSOAPEnvelope() throws Exception {
 
@@ -42,4 +42,6 @@ public class LoginRequest extends Request {
 
         headers.addHeader("SOAPAction", serverURI + "Zaloguj");
     }
+
+
 }

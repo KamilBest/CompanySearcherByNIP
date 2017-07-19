@@ -9,7 +9,8 @@ import javax.xml.soap.*;
  * to construct all types of requests
  */
 public abstract class Request implements RequestInterface {
-    protected String serverURI = "http://CIS/BIR/PUBL/2014/07";
+    protected final String serverURI = "http://CIS/BIR/PUBL/2014/07";
+    protected String sessionID = "";
     protected SOAPMessage soapMessage;
     protected SOAPPart soapPart;
     protected SOAPEnvelope soapEnvelope;

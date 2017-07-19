@@ -5,13 +5,16 @@ import javax.xml.soap.*;
 /**
  * Created by Kamil Best on 19.07.2017.
  */
-public class DataSearchRequest extends Request {
 
+public class SOAPDataSearchRequest extends Request {
+
+    public SOAPDataSearchRequest(String sessionID) {
+        this.sessionID = sessionID;
+    }
     @Override
     protected void prepareSOAPEnvelope() throws Exception {
         SOAPEnvelope soapEnvelope = soapPart.getEnvelope();
         soapEnvelope.setPrefix("soap");  //to make sure prefix match
-
         soapEnvelope.addNamespaceDeclaration("dat", "http://CIS/BIR/PUBL/2014/07/DataContract");
         soapEnvelope.addNamespaceDeclaration("ns", serverURI);
         soapEnvelope.removeNamespaceDeclaration("env");
