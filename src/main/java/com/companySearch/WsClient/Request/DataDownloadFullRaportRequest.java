@@ -1,16 +1,19 @@
 package com.companySearch.WsClient.Request;
 
-import javax.xml.soap.SOAPElement;
-import javax.xml.soap.SOAPException;
+import javax.xml.soap.*;
 
 /**
- * Created by Kamil Best on 18.07.2017.
+ * Created by Kamil Best on 19.07.2017.
  */
-public class LoginRequest extends Request {
+public class DataDownloadFullRaportRequest extends Request {
+
+    public DataDownloadFullRaportRequest(String sessionID) {
+        this.sessionID = sessionID;
+    }
+
     @Override
     protected void prepareSOAPEnvelope() throws Exception {
-
-        soapEnvelope.addNamespaceDeclaration("ns", serverURI);
+        SOAPEnvelope soapEnvelope = soapPart.getEnvelope();
         soapEnvelope.setPrefix("soap");  //to make sure prefix match
         soapEnvelope.addNamespaceDeclaration("ns", serverURI);
         soapEnvelope.removeNamespaceDeclaration("env");
@@ -19,29 +22,32 @@ public class LoginRequest extends Request {
     @Override
     protected void prepareSOAPHeader() throws SOAPException {
         String headerURI = "http://www.w3.org/2005/08/addressing";
-
+        SOAPHeader soapHeader = soapEnvelope.getHeader();
         soapHeader.setPrefix("soap");//to make sure prefix match
         soapHeader.addNamespaceDeclaration("wsa", headerURI);
         SOAPElement soapHeaderElement = soapHeader.addChildElement("Action", "wsa");
         SOAPElement soapHeaderElement1 = soapHeader.addChildElement("To", "wsa");
-        soapHeaderElement.addTextNode("http://CIS/BIR/PUBL/2014/07/IUslugaBIRzewnPubl/Zaloguj");
+        soapHeaderElement.addTextNode("http://CIS/BIR/PUBL/2014/07/IUslugaBIRzewnPubl/DanePobierzPelnyRaport");
         soapHeaderElement1.addTextNode("https://wyszukiwarkaregontest.stat.gov.pl/wsBIR/UslugaBIRzewnPubl.svc");
     }
 
     @Override
     protected void prepareSOAPBody() throws SOAPException {
 
+        SOAPBody soapBody = soapEnvelope.getBody();
         soapBody.setPrefix("soap");
-        SOAPElement soapBodyElement = soapBody.addChildElement("Zaloguj", "ns");
-        SOAPElement soapBodyElement1 = soapBodyElement.addChildElement("pKluczUzytkownika", "ns");
-        soapBodyElement1.addTextNode("abcde12345abcde12345");
+        SOAPElement soapBodyElement = soapBody.addChildElement("DanePobierzPelnyRaport", "ns");
+        SOAPElement soapBodyElement1 = soapBodyElement.addChildElement("pRegon", "ns");
+        soapBodyElement1.addTextNode("000331501");
+        SOAPElement parametr = soapBodyElement.addChildElement("pNazwaRaportu", "ns");
+        parametr.addTextNode("PublDaneRaportPrawna");
     }
 
     @Override
     protected void prepareMimeHeaders() {
 
-        headers.addHeader("SOAPAction", serverURI + "Zaloguj");
+        headers.addHeader("SOAPAction", serverURI + "DanePobierzPelnyRaport");
     }
-
-
 }
+
+

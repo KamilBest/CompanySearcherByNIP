@@ -1,11 +1,9 @@
 package com.companySearch.WsClient.SOAP;
 
 import com.companySearch.WsClient.Request.Request;
+import org.w3c.dom.Node;
 
-import javax.xml.soap.SOAPConnection;
-import javax.xml.soap.SOAPConnectionFactory;
-import javax.xml.soap.SOAPException;
-import javax.xml.soap.SOAPMessage;
+import javax.xml.soap.*;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
@@ -16,14 +14,17 @@ import javax.xml.transform.stream.StreamResult;
  * SOAPAuthorizerInterface class, making SOAP connection, calling requests and printing SOAP result.
  */
 public class SOAPAuthorizerInterface implements AuthorizerInterface {
+    String sessionID;
     private SOAPConnectionFactory soapConnectionFactory;
     private SOAPConnection soapConnection;
+    private SOAPBody soapResultBody;
 
     public SOAPAuthorizerInterface() throws SOAPException {
         soapConnectionFactory = SOAPConnectionFactory.newInstance();
         //Creating SOAP connection
         soapConnection = soapConnectionFactory.createConnection();
     }
+
 
     /**
      * Prints SOAPResult from soapResponse
@@ -39,7 +40,23 @@ public class SOAPAuthorizerInterface implements AuthorizerInterface {
         System.out.print(title);
         StreamResult result = new StreamResult(System.out);
         transformer.transform(sourceContent, result);
+        soapResultBody = soapResponse.getSOAPBody();
+
     }
+
+    /**
+     * Set session ID from ZalogujResult element in soapResultBody
+     */
+    public void setSessionIDFromLoginRequestResponse() {
+        Node loginResult = soapResultBody.getElementsByTagName("ZalogujResult").item(0);
+        sessionID = loginResult.getTextContent();
+
+    }
+
+    public String getSessionID() {
+        return sessionID;
+    }
+
 
     /**
      * authorizes connection, call given request and print it

@@ -3,6 +3,7 @@ package com.companySearch.WsClient;
 import com.companySearch.WsClient.Request.Request;
 import com.companySearch.WsClient.SOAP.SOAPAuthorizerInterface;
 
+
 /**
  * Created by Kamil Best on 14.07.2017.
  * WsClient class
@@ -28,5 +29,13 @@ public class WsClient {
     public void getResponse(Request request) throws Exception {
         soapAuthorizer.authorize(request);
 
+    }
+
+    public void setSessionID() {
+        soapAuthorizer.setSessionIDFromLoginRequestResponse();
+    }
+
+    public String getSessionID() {
+        return soapAuthorizer.getSessionID();
     }
 }

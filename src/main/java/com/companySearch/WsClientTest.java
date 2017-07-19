@@ -1,6 +1,9 @@
 package com.companySearch;
 
+import com.companySearch.WsClient.Request.DataDownloadFullRaportRequest;
+import com.companySearch.WsClient.Request.DataSearchRequest;
 import com.companySearch.WsClient.Request.LoginRequest;
+import com.companySearch.WsClient.Request.LogoutRequest;
 import com.companySearch.WsClient.SOAP.SOAPAuthorizerInterface;
 import com.companySearch.WsClient.WsClient;
 
@@ -14,6 +17,12 @@ public class WsClientTest {
         try {
             WsClient wsClient = new WsClient(new SOAPAuthorizerInterface());
             wsClient.getResponse(new LoginRequest());
+            wsClient.setSessionID();
+            String sessionId = wsClient.getSessionID();
+
+            wsClient.getResponse(new DataSearchRequest(sessionId));
+            wsClient.getResponse(new DataDownloadFullRaportRequest(sessionId));
+            wsClient.getResponse(new LogoutRequest(sessionId));
         } catch (SOAPException e) {
             e.printStackTrace();
         }
