@@ -5,9 +5,8 @@ import javax.xml.soap.*;
 /**
  * Created by Kamil Best on 19.07.2017.
  */
-public class DataDownloadFullRaportRequest extends Request {
-
-    public DataDownloadFullRaportRequest(String sessionID) {
+public class SOAPLogoutRequest extends Request {
+    public SOAPLogoutRequest(String sessionID) {
         this.sessionID = sessionID;
     }
 
@@ -27,27 +26,22 @@ public class DataDownloadFullRaportRequest extends Request {
         soapHeader.addNamespaceDeclaration("wsa", headerURI);
         SOAPElement soapHeaderElement = soapHeader.addChildElement("Action", "wsa");
         SOAPElement soapHeaderElement1 = soapHeader.addChildElement("To", "wsa");
-        soapHeaderElement.addTextNode("http://CIS/BIR/PUBL/2014/07/IUslugaBIRzewnPubl/DanePobierzPelnyRaport");
+        soapHeaderElement.addTextNode("http://CIS/BIR/PUBL/2014/07/IUslugaBIRzewnPubl/Wyloguj");
         soapHeaderElement1.addTextNode("https://wyszukiwarkaregontest.stat.gov.pl/wsBIR/UslugaBIRzewnPubl.svc");
     }
 
     @Override
     protected void prepareSOAPBody() throws SOAPException {
-
         SOAPBody soapBody = soapEnvelope.getBody();
         soapBody.setPrefix("soap");
-        SOAPElement soapBodyElement = soapBody.addChildElement("DanePobierzPelnyRaport", "ns");
-        SOAPElement soapBodyElement1 = soapBodyElement.addChildElement("pRegon", "ns");
-        soapBodyElement1.addTextNode("000331501");
-        SOAPElement parametr = soapBodyElement.addChildElement("pNazwaRaportu", "ns");
-        parametr.addTextNode("PublDaneRaportPrawna");
+        SOAPElement soapBodyElement = soapBody.addChildElement("Wyloguj", "ns");
+        SOAPElement soapBodyElement1 = soapBodyElement.addChildElement("pIdentyfikatorSesji", "ns");
+        soapBodyElement1.addTextNode(sessionID);
     }
 
     @Override
     protected void prepareMimeHeaders() {
-
-        headers.addHeader("SOAPAction", serverURI + "DanePobierzPelnyRaport");
+        MimeHeaders headers = soapMessage.getMimeHeaders();
+        headers.addHeader("SOAPAction", serverURI + "Wyloguj");
     }
 }
-
-

@@ -1,7 +1,7 @@
 package com.companySearch.WsClient;
 
 import com.companySearch.WsClient.Request.Request;
-import com.companySearch.WsClient.SOAP.SOAPAuthorizerInterface;
+import com.companySearch.WsClient.SOAP.SOAPAuthorizer;
 
 
 /**
@@ -12,11 +12,11 @@ import com.companySearch.WsClient.SOAP.SOAPAuthorizerInterface;
 public class WsClient {
 
     /**
-     * SOAPAuthorizerInterface objects, handle SOAP requests.
+     * SOAPAuthorizer objects, handle SOAP requests.
      */
-    private SOAPAuthorizerInterface soapAuthorizer;
+    private SOAPAuthorizer soapAuthorizer;
 
-    public WsClient(SOAPAuthorizerInterface soapAuthorizer) {
+    public WsClient(SOAPAuthorizer soapAuthorizer) {
         this.soapAuthorizer = soapAuthorizer;
     }
 
