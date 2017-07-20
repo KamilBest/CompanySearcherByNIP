@@ -9,22 +9,47 @@ import javax.xml.soap.*;
  * to construct all types of requests
  */
 public abstract class Request implements RequestInterface {
-    protected final String serverURI = "http://CIS/BIR/PUBL/2014/07";
-    protected String sessionID = "";
-    protected SOAPMessage soapMessage;
-    protected SOAPPart soapPart;
-    protected SOAPEnvelope soapEnvelope;
-    protected SOAPHeader soapHeader;
-    protected SOAPBody soapBody;
-    protected MimeHeaders headers;
+    String sessionID = "";
+    SOAPEnvelope soapEnvelope;
+    SOAPBody soapBody;
+    /**
+     * determines action name
+     */
+    String actionName = "";
+    /**
+     * determines if DataContract namespace is needed
+     */
+    boolean dataContract = false;
+    private String serverURI = "http://CIS/BIR/PUBL/2014/07";
+    private SOAPMessage soapMessage;
+    private SOAPPart soapPart;
+    private SOAPHeader soapHeader;
+    private MimeHeaders headers;
 
-    protected abstract void prepareSOAPEnvelope() throws Exception;
+    private void prepareSOAPEnvelope(boolean dataContract) throws Exception {
+        soapEnvelope.addNamespaceDeclaration("ns", "http://CIS/BIR/PUBL/2014/07");
+        soapEnvelope.setPrefix("soap");  //to make sure prefix match
+        soapEnvelope.addNamespaceDeclaration("ns", "http://CIS/BIR/PUBL/2014/07");
+        soapEnvelope.removeNamespaceDeclaration("env");
+        if (dataContract)
+            soapEnvelope.addNamespaceDeclaration("dat", "http://CIS/BIR/PUBL/2014/07/DataContract");
+    }
 
-    protected abstract void prepareSOAPHeader() throws SOAPException;
+    private void prepareSOAPHeader(String actionName) throws SOAPException {
+        String headerURI = "http://www.w3.org/2005/08/addressing";
+        soapHeader.setPrefix("soap");//to make sure prefix match
+        soapHeader.addNamespaceDeclaration("wsa", headerURI);
+        SOAPElement soapHeaderElement = soapHeader.addChildElement("Action", "wsa");
+        SOAPElement soapHeaderElement1 = soapHeader.addChildElement("To", "wsa");
+        soapHeaderElement.addTextNode("http://CIS/BIR/PUBL/2014/07/IUslugaBIRzewnPubl/" + actionName);
+        soapHeaderElement1.addTextNode("https://wyszukiwarkaregontest.stat.gov.pl/wsBIR/UslugaBIRzewnPubl.svc");
+    }
 
     protected abstract void prepareSOAPBody() throws SOAPException;
 
-    protected abstract void prepareMimeHeaders();
+    private void prepareMimeHeaders(String actionName) {
+        headers.addHeader("SOAPAction", serverURI + actionName + sessionID);
+    }
 
     /**
      * Taking prepared SOAP parts (Envelope, Header etc...) and construct request message to send.
@@ -44,11 +69,11 @@ public abstract class Request implements RequestInterface {
 
         //Creating SOAP envelope
         soapEnvelope = soapPart.getEnvelope();
-        prepareSOAPEnvelope();
+        prepareSOAPEnvelope(dataContract);
 
         //Creating SOAP header
         soapHeader = soapEnvelope.getHeader();
-        prepareSOAPHeader();
+        prepareSOAPHeader(actionName);
 
         //Gain and modify SOAP body
         soapBody = soapEnvelope.getBody();
@@ -56,7 +81,7 @@ public abstract class Request implements RequestInterface {
 
         //Gain and modify mime headers
         headers = soapMessage.getMimeHeaders();
-        prepareMimeHeaders();
+        prepareMimeHeaders(actionName);
 
         //Save SOAP message changes
         soapMessage.saveChanges();

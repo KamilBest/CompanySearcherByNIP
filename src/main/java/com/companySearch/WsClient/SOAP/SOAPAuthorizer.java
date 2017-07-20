@@ -68,7 +68,6 @@ public class SOAPAuthorizer implements AuthorizerInterface {
     public void authorize(Request request) throws Exception {
         String serviceURI = "https://wyszukiwarkaregontest.stat.gov.pl/wsBIR/UslugaBIRzewnPubl.svc";
         //Call request and receive result from service
-        request.constructRequestMessage();
         SOAPMessage result = soapConnection.call(request.getSoapMessage(), serviceURI);
         printSOAPResult(result, "Result SOAPMessage: ");
     }
