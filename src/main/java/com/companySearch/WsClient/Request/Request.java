@@ -49,6 +49,7 @@ public abstract class Request implements RequestInterface {
 
     private void prepareMimeHeaders(String actionName) {
         headers.addHeader("SOAPAction", serverURI + actionName + sessionID);
+        headers.addHeader("SID", sessionID);
     }
 
     /**
