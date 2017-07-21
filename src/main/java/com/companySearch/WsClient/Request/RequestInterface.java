@@ -1,4 +1,5 @@
 package com.companySearch.WsClient.Request;
+
 /**
  * Created by Kamil Best on 18.07.2017.
  */

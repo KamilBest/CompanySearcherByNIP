@@ -1,4 +1,5 @@
 package com.companySearch.WsClient.Request;
+
 import javax.xml.soap.SOAPElement;
 import javax.xml.soap.SOAPException;
 
