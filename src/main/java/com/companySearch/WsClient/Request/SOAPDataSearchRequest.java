@@ -10,8 +10,11 @@ import javax.xml.soap.SOAPException;
 public class SOAPDataSearchRequest extends Request {
 
     String actionName = "DaneSzukaj";
-    public SOAPDataSearchRequest(String sessionID) {
+    String NIP = "";
+
+    public SOAPDataSearchRequest(String sessionID, String NIP) {
         this.sessionID = sessionID;
+        this.NIP = NIP;
         super.actionName = this.actionName;
         this.dataContract = true;
         try {
@@ -28,7 +31,7 @@ public class SOAPDataSearchRequest extends Request {
         SOAPElement soapBodyElement = soapBody.addChildElement(actionName, "ns");
         SOAPElement soapBodyElement1 = soapBodyElement.addChildElement("pParametryWyszukiwania", "ns");
         SOAPElement parametr = soapBodyElement1.addChildElement("Nip", "dat");
-        parametr.addTextNode("9290016119");
+        parametr.addTextNode(NIP);
     }
 
 }

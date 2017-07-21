@@ -31,6 +31,10 @@ public class WsClient {
 
     }
 
+    public void getData() {
+        soapAuthorizer.getDataSearchResult();
+    }
+
     public void setSessionID() {
         soapAuthorizer.setSessionIDFromLoginRequestResponse();
     }

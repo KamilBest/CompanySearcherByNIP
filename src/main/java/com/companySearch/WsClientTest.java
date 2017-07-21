@@ -20,7 +20,9 @@ public class WsClientTest {
             wsClient.setSessionID();
             String sessionId = wsClient.getSessionID();
 
-            wsClient.getResponse(new SOAPDataSearchRequest(sessionId));
+            String NIP = "9290016119";
+            wsClient.getResponse(new SOAPDataSearchRequest(sessionId, NIP));
+            // wsClient.getData();
             wsClient.getResponse(new SOAPDataDownloadFullRaportRequest(sessionId));
             wsClient.getResponse(new SOAPLogoutRequest(sessionId));
         } catch (SOAPException e) {

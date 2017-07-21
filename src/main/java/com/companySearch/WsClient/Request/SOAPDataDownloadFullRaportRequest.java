@@ -9,6 +9,7 @@ import javax.xml.soap.SOAPException;
 public class SOAPDataDownloadFullRaportRequest extends Request {
 
     String actionName = "DanePobierzPelnyRaport";
+
     public SOAPDataDownloadFullRaportRequest(String sessionID) {
         this.sessionID = sessionID;
         super.actionName = this.actionName;

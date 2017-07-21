@@ -8,6 +8,7 @@ import javax.xml.soap.SOAPException;
  */
 public class SOAPLogoutRequest extends Request {
     String actionName = "Wyloguj";
+
     public SOAPLogoutRequest(String sessionID) {
         this.sessionID = sessionID;
         super.actionName = this.actionName;
@@ -18,6 +19,7 @@ public class SOAPLogoutRequest extends Request {
             e.printStackTrace();
         }
     }
+
     @Override
     protected void prepareSOAPBody() throws SOAPException {
         soapBody.setPrefix("soap");
