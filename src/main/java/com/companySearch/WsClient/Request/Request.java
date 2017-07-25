@@ -88,9 +88,11 @@ public abstract class Request implements RequestInterface {
         soapMessage.saveChanges();
 
         //Print request
+        /*
         System.out.print("Request SOAPMessage: ");
         soapMessage.writeTo(System.out);
         System.out.println();
+        */
 
     }
 
