@@ -21,7 +21,7 @@ Returns following info about company you found
 
 Screenshots:
 --
-![Screenshot](/screenshots/Screenshot_1.png)
-![Screenshot](/screenshots/Screenshot_2.png)
+![Screenshot](http://i.imgur.com/XrBu1B6.png)
+![Screenshot](http://i.imgur.com/kltAFIa.png)
 
  
