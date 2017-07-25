@@ -111,7 +111,6 @@ public class SOAPResponseFormat {
      * Takes specified data from search result DanePobierzPelnyRaportResult and puts into company object
      */
     private void getDataFromDownloadFullRaportResult(NodeList nodeList) {
-        company.setNip(getNodeValue("praw_nip", nodeList));
         company.setFullName(getNodeValue("praw_nazwa", nodeList));
         company.setShortenName(getNodeValue("praw_nazwaSkrocona", nodeList));
         company.setCountry(getNodeValue("praw_adSiedzKraj_Nazwa", nodeList));

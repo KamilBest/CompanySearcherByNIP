@@ -5,7 +5,6 @@ package com.companySearch.WsClient.Response;
  * Created by Kamil Best on 25.07.2017.
  */
 public class Company {
-    private String nip;
     private String fullName;
     private String shortenName;
     private String country;
@@ -30,9 +29,6 @@ public class Company {
         this.regon = regon;
     }
 
-    void setNip(String nip) {
-        this.nip = nip;
-    }
 
     void setFullName(String fullName) {
         this.fullName = fullName;
@@ -88,19 +84,18 @@ public class Company {
 
     @Override
     public String toString() {
-        return "nip: " + nip + '\n' +
-                "fullName: " + fullName + '\n' +
-                "shortenName: " + shortenName + '\n' +
-                "country: " + country + '\n' +
-                "state: " + state + '\n' +
+        return "Full name: " + fullName + '\n' +
+                "Shorten name: " + shortenName + '\n' +
+                "Country: " + country + '\n' +
+                "State: " + state + '\n' +
                 "City: " + City + '\n' +
-                "postCode: " + postCode + '\n' +
-                "street: " + street + '\n' +
-                "buildingNumber: " + buildingNumber + '\n' +
-                "localNumber: " + localNumber + '\n' +
-                "phoneNumber: " + phoneNumber + '\n' +
-                "email: " + email + '\n' +
-                "startDate: " + startDate + '\n' +
-                "endDate: " + endDate;
+                "PostCode: " + postCode + '\n' +
+                "Street: " + street + '\n' +
+                "BuildingNumber: " + buildingNumber + '\n' +
+                "LocalNumber: " + localNumber + '\n' +
+                "PhoneNumber: " + phoneNumber + '\n' +
+                "E-mail: " + email + '\n' +
+                "Start date: " + startDate + '\n' +
+                "End date: " + endDate;
     }
 }
