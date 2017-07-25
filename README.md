@@ -21,7 +21,7 @@ Returns following info about company you found
 
 Screenshots:
 --
-![alt text](screenshots/Screenshot_1.png "Before searching")
-![alt text](screenshots/Screenshot_2.png "After result found")
+![Screenshot](/screenshots/Screenshot_1.png)
+![Screenshot](/screenshots/Screenshot_2.png)
 
  
