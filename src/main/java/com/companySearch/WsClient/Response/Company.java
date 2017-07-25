@@ -1,87 +1,88 @@
 package com.companySearch.WsClient.Response;
 
 /**
+ * Company class entity , contains specified values.
  * Created by Kamil Best on 25.07.2017.
  */
 public class Company {
-    String nip;
-    String fullName;
-    String shortenName;
-    String country;
-    String state;
-    String City;
-    String postCode;
-    String street;
-    String buildingNumber;
-    String localNumber;
-    String phoneNumber;
-    String email;
-    String startDate;
-    String endDate;
+    private String nip;
+    private String fullName;
+    private String shortenName;
+    private String country;
+    private String state;
+    private String City;
+    private String postCode;
+    private String street;
+    private String buildingNumber;
+    private String localNumber;
+    private String phoneNumber;
+    private String email;
+    private String startDate;
+    private String endDate;
 
-    String regon;
+    private String regon;
 
-    public String getRegon() {
+    String getRegon() {
         return regon;
     }
 
-    public void setRegon(String regon) {
+    void setRegon(String regon) {
         this.regon = regon;
     }
 
-    public void setNip(String nip) {
+    void setNip(String nip) {
         this.nip = nip;
     }
 
-    public void setFullName(String fullName) {
+    void setFullName(String fullName) {
         this.fullName = fullName;
     }
 
-    public void setShortenName(String shortenName) {
+    void setShortenName(String shortenName) {
         this.shortenName = shortenName;
     }
 
-    public void setCountry(String country) {
+    void setCountry(String country) {
         this.country = country;
     }
 
-    public void setState(String state) {
+    void setState(String state) {
         this.state = state;
     }
 
-    public void setCity(String city) {
+    void setCity(String city) {
         City = city;
     }
 
-    public void setPostCode(String postCode) {
+    void setPostCode(String postCode) {
         this.postCode = postCode;
     }
 
-    public void setStreet(String street) {
+    void setStreet(String street) {
         this.street = street;
     }
 
-    public void setBuildingNumber(String buildingNumber) {
+    void setBuildingNumber(String buildingNumber) {
         this.buildingNumber = buildingNumber;
     }
 
-    public void setLocalNumber(String localNumber) {
+    void setLocalNumber(String localNumber) {
         this.localNumber = localNumber;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
+    void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
-    public void setEmail(String email) {
+    void setEmail(String email) {
         this.email = email;
     }
 
-    public void setStartDate(String startDate) {
+    void setStartDate(String startDate) {
         this.startDate = startDate;
     }
 
-    public void setEndDate(String endDate) {
+    void setEndDate(String endDate) {
         this.endDate = endDate;
     }
 

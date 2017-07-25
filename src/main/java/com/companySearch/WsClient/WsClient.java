@@ -37,7 +37,7 @@ public class WsClient {
     }
 
     public void getData(boolean fullRaport) {
-        soapAuthorizer.getDataSearchResult(fullRaport);
+        soapAuthorizer.formatData(fullRaport);
     }
 
     public void setSessionID() {
