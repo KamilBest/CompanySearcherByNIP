@@ -9,8 +9,10 @@ import javax.xml.soap.SOAPException;
 public class SOAPDataDownloadFullRaportRequest extends Request {
 
     String actionName = "DanePobierzPelnyRaport";
+    String regonNumber;
 
-    public SOAPDataDownloadFullRaportRequest(String sessionID) {
+    public SOAPDataDownloadFullRaportRequest(String sessionID, String regonNumber) {
+        this.regonNumber = regonNumber;
         this.sessionID = sessionID;
         super.actionName = this.actionName;
         this.dataContract = false;
@@ -26,7 +28,7 @@ public class SOAPDataDownloadFullRaportRequest extends Request {
         soapBody.setPrefix("soap");
         SOAPElement soapBodyElement = soapBody.addChildElement(actionName, "ns");
         SOAPElement soapBodyElement1 = soapBodyElement.addChildElement("pRegon", "ns");
-        soapBodyElement1.addTextNode("000331501");
+        soapBodyElement1.addTextNode(regonNumber);
         SOAPElement parametr = soapBodyElement.addChildElement("pNazwaRaportu", "ns");
         parametr.addTextNode("PublDaneRaportPrawna");
     }

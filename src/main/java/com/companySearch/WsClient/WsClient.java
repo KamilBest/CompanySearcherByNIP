@@ -1,6 +1,7 @@
 package com.companySearch.WsClient;
 
 import com.companySearch.WsClient.Request.Request;
+import com.companySearch.WsClient.Response.Company;
 import com.companySearch.WsClient.SOAP.SOAPAuthorizer;
 
 
@@ -31,14 +32,21 @@ public class WsClient {
 
     }
 
-    public void getData() {
-        soapAuthorizer.getDataSearchResult();
+    public Company printData() {
+        return soapAuthorizer.getCompany();
+    }
+
+    public void getData(boolean fullRaport) {
+        soapAuthorizer.formatData(fullRaport);
     }
 
     public void setSessionID() {
         soapAuthorizer.setSessionIDFromLoginRequestResponse();
     }
 
+    public String getRegonNumber() {
+        return soapAuthorizer.getRegonNumber();
+    }
     public String getSessionID() {
         return soapAuthorizer.getSessionID();
     }

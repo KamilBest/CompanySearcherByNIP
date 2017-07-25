@@ -1,53 +1,54 @@
 package com.companySearch.WsClient.SOAP;
 
 import com.companySearch.WsClient.Request.Request;
+import com.companySearch.WsClient.Response.Company;
+import com.companySearch.WsClient.Response.SOAPResponseFormat;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.w3c.dom.Node;
 
 import javax.xml.soap.*;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Source;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.stream.StreamResult;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 
 /**
  * Created by Kamil Best on 19.07.2017.
  * SOAPAuthorizer class, making SOAP connection, calling requests and printing SOAP result.
  */
 public class SOAPAuthorizer implements AuthorizerInterface {
-    String sessionID;
-    private SOAPConnectionFactory soapConnectionFactory;
+    private String sessionID;
     private SOAPConnection soapConnection;
     private SOAPBody soapResultBody;
+    private SOAPResponseFormat soapResponseFormat;
 
     public SOAPAuthorizer() throws SOAPException {
-        soapConnectionFactory = SOAPConnectionFactory.newInstance();
+        SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory.newInstance();
         //Creating SOAP connection
         soapConnection = soapConnectionFactory.createConnection();
+        soapResponseFormat = new SOAPResponseFormat();
     }
 
-
     /**
-     * Prints SOAPResult from soapResponse
+     * takes SOAPResult from soapResponse and writes it to response.xml file
      *
      * @param soapResponse message from service
-     * @param title        printed result title
      * @throws Exception
      */
-    private void printSOAPResult(SOAPMessage soapResponse, String title) throws Exception {
-
-        TransformerFactory transformerFactory = TransformerFactory.newInstance();
-        Transformer transformer = transformerFactory.newTransformer();
-        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-        transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-        final Source soapContent = soapResponse.getSOAPPart().getContent();
-        System.out.println(title + ": ");
-        final StreamResult result = new StreamResult(System.out); //print
-        //  new StreamResult(new File("response.xml") write response to file
-        transformer.transform(soapContent, result);
+    private void takeSOAPResult(SOAPMessage soapResponse) throws Exception {
         soapResultBody = soapResponse.getSOAPBody();
 
+        //Gets text content of soap response body to String
+        String xmlDoc = soapResultBody.getTextContent();
+        //Unescape html marks
+        String decodedXML = StringEscapeUtils.unescapeHtml(xmlDoc);
+
+        //save taken from soap response body and save it to file
+        try (PrintStream out = new PrintStream(new FileOutputStream("response.xml"))) {
+            out.print(decodedXML);
+        }
+    }
+
+    public void formatData(boolean fullRaport) {
+        soapResponseFormat.formatData(fullRaport);
     }
 
     /**
@@ -59,19 +60,18 @@ public class SOAPAuthorizer implements AuthorizerInterface {
     }
 
     /**
-     * Takes data from DaneSzukajResult
+     * Takes regon from data search result (which is alredy taken to company field.
+     *
+     * @return String regon number
      */
-    public void getDataSearchResult() {
-        System.out.println();
-        Node returnList = soapResultBody.getElementsByTagName("DaneSzukajResult").item(0);
-        String data = returnList.getChildNodes().item(0).toString();
-        System.out.println(data);
-        String decodedXML = StringEscapeUtils.unescapeHtml(data);
-        System.out.println(decodedXML);
-
-
+    public String getRegonNumber() {
+        return soapResponseFormat.getRegonNumber();
     }
 
+
+    public Company getCompany() {
+        return soapResponseFormat.getCompany();
+    }
 
     public String getSessionID() {
         return sessionID;
@@ -81,7 +81,7 @@ public class SOAPAuthorizer implements AuthorizerInterface {
     /**
      * authorizes connection, call given request and print it
      *
-     * @param request
+     * @param request object
      * @throws Exception
      */
     @Override
@@ -89,6 +89,6 @@ public class SOAPAuthorizer implements AuthorizerInterface {
         String serviceURI = "https://wyszukiwarkaregontest.stat.gov.pl/wsBIR/UslugaBIRzewnPubl.svc";
         //Call request and receive result from service
         SOAPMessage result = soapConnection.call(request.getSoapMessage(), serviceURI);
-        printSOAPResult(result, "Result SOAPMessage: ");
+        takeSOAPResult(result);
     }
 }
